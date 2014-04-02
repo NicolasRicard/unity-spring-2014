@@ -70,7 +70,7 @@ public class Camera_Manager : MonoBehaviour {
 	public void SmoothCameraPosition() {
 
 		float clampedMouseWheel = Mathf.Clamp(this.MouseWheel, this.MinDist, this.MaxDist);
-		float newMouseWheel = Mathf.SmoothDamp(this.OldMouseWheel, clampedMouseWheel, ref this.CameraVelocity.z, 0.3f);
+		float newMouseWheel = Mathf.SmoothDamp(this.OldMouseWheel, clampedMouseWheel, ref this.MouseWheelVelocity, 0.3f);
 
 		this.OldMouseWheel = newMouseWheel;
 		this.SmoothCameraAxis();
@@ -84,9 +84,8 @@ public class Camera_Manager : MonoBehaviour {
 	}
 
 	public Vector3 CreatePositionVector(float mouseX, float mouseY, float dist) {
-		Quaternion cameraRotation = Quaternion.Euler(mouseY, mouseX, 0.0f);
-		Vector3 cameraPosition = this.TargetLookAt.transform.position + (cameraRotation * Vector3.forward * -dist);
-		return cameraPosition;
+		Quaternion	rotation = Quaternion.Euler(mouseY, mouseX, 0.0f);
+		return this.TargetLookAt.transform.position + (rotation * Vector3.forward * -dist);
 	}
 
 	public void	ApplyCameraPosition(Vector3 newPos) {
